@@ -8,9 +8,8 @@ Open command line create a virtual environment and run the following commands to
 1. `git clone https://github.com/ChamilG/LMS.git`
 2. `cd LMS`
 
-To install backend
-1. `cd backend`
-2. `pip install -r requirements.txt`
+To install 
+`pip install -r requirements.txt`
 
 DATABSE
 ---
