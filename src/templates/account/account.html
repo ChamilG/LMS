@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% comment %} {% for borrow in borrowings%}
+<p> {{borrow.book}} on {{borrow.borrow_date}}</p>
+{%endfor%} {% endcomment %}
+{% load custom_filters %}
+
+
+<table>
+    <tr>
+        <th>Book </th>
+        <th>Borrowed On</th>
+        <th>Return Date </th>
+    </tr>
+    {% for item1, item2 in borrowings.details|zip_lists:borrowings.warning %}
+       <tr> 
+        <td>{{ item1.book.title }} </td>  
+        <td>{{item1.borrow_date}} </td>
+        <td>{{ item2 }}</td>
+       </tr>
+    {% endfor %}
+
+
+
+{% comment %} {% for borrow1, borrow2 in borrowings.a%}
+<p> {{borrow}}</p>
+{%endfor%}
+
+{% for borrow in borrowings.b%}
+<p> {{borrow}}</p>
+{%endfor%} {% endcomment %}
+
+{% endblock content %}

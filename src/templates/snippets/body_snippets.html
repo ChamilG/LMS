@@ -1,0 +1,25 @@
+
+<div class="col-md-15 search-column">
+    <form method="POST" class="form-inline my-2 my-lg-0">
+        {% csrf_token %}
+        <input type="text" name="search_query" class="form-control mr-sm-2" id="searchBook" placeholder="Search for a book" aria-label="Search">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
+</div>
+<div class="col-md-8 search-results">
+        {% if searched_book %}
+            {% if searched_book == 'empty' %}
+                <p>Not available.</p>
+            {% else %}  
+                <div style="display: flex; padding-left: 5px;">
+                    <a href = {% url 'book_detail' searched_book.id%}>
+                    <img src="{{ searched_book.image_field }}" alt="{{ searched_book.title }} Image", width="50" height="75">
+                    <p>{{ searched_book.title }}</p>
+                    </a>
+                </div>  
+      
+            {% endif %}
+
+        {% else %}
+        {% endif %}
+</div>
