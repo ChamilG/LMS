@@ -6,6 +6,7 @@ from datetime import date, timedelta
 from .forms import RegistrationForm, AccountAuthenticationForm
 from myapp.models import Borrow
 from .models import UserRating
+from myapp.views import change_img_url
 
 # Create your views here.
 def registration_view(request):
@@ -57,18 +58,16 @@ def logout_view(request):
 
 def account(request):
     context = {}
-    max_days = 14
-    context['borrowings'] = []
-
     if request.user.is_authenticated:
         user = request.user
         borrow_details = Borrow.objects.filter(member=user)
-        context['borrowings'] = {'details':list(borrow_details), 'warning':[]}
+        # context['borrowings'] = {'details':list(borrow_details), 'warning':[]}
         # date_to_return = borrow_details.first().borrow_date + timedelta(days=max_days)
         today = date.today()
-        context['borrowings']['warning'] = overdue_check(borrow_details, today, 14)
+        context['borrowings'] = overdue_check(borrow_details, today)
         # if date_to_return > today:
         #     borrow_details.first
+        print(context['borrowings'][0].book.img_url)
     return render(request, 'account/account.html', context)
 
 def fine_calculator(date_to_return, fine, today):
@@ -76,19 +75,21 @@ def fine_calculator(date_to_return, fine, today):
     diff = today- date_to_return
     return diff.days * fine
 
-def overdue_check(detail_list, today, max_days):
-    warning = []
+def overdue_check(borrow_details, today):
+    warning = ""
+    detail_list = list(borrow_details)
     for detail in detail_list:
-        date_to_return = detail.borrow_date + timedelta(days=max_days)
+        date_to_return = detail.return_date
         if date_to_return < today:
-            print(date_to_return)
+            # print(date_to_return)
             fine = fine_calculator(date_to_return, 10, today)
-            print(fine)
-            warning.append('Warned you have to pay {}'.format(fine))
+            warning='Warned you have to pay Rs {}'.format(fine)   
         else:
-            warning.append('You have to return the book on {}'.format(date_to_return))
+            warning='You have to return the book on {}'.format(date_to_return)
+        detail.warning = warning
+        detail.book.img_url = str(detail.book.image_field).split('static/',1)[-1]
 
-    return warning
+    return detail_list
 
 def user_ratings_create(request, book_id):
     try:

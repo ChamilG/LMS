@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_delete
 import os
+from datetime import datetime, timedelta
 # Create your models here.
 
 class Author(models.Model):
@@ -69,3 +70,11 @@ class Borrow(models.Model):
 
     def __str__(self):
         return f"Borrowed: {self.book.title} by {self.member.username} on {self.borrow_date}"
+    
+    def save(self, *args, **kwargs):
+        # Check if borrow_date is set and return_date is not already set
+        if self.borrow_date and not self.return_date:
+            # Calculate the return date as borrow_date + 14 days
+            self.return_date = self.borrow_date + timedelta(days=14)
+
+        super().save(*args, **kwargs)

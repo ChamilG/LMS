@@ -99,3 +99,6 @@ def categories_view(request, category):
         category_books = change_img_url(Book.objects.filter(genre_id=genre_id))
         context["category_books"] = category_books
     return render(request,  'myapp/categories.html', context)
+
+def about(request):
+    return render(request, 'myapp/about.html')
