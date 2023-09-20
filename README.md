@@ -5,8 +5,8 @@ INSTALLATION
 ------------
 
 Open command line create a virtual environment and run the following commands to setup
-1. `git clone https://github.com/EshSub/S3_DBMS_project`
-2. `cd S3_DBMS_project`
+1. `git clone https://github.com/ChamilG/LMS.git`
+2. `cd LMS`
 
 To install backend
 1. `cd backend`
