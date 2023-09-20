@@ -12,6 +12,8 @@ To install
 
 1. `pip install -r requirements.txt`
 2. Note You need python 3.11 for this
+
+   
 DATABSE
 ---
 Create the mysql database and change the setting.py in lms folder accordingly
